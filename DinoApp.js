@@ -1,15 +1,13 @@
-//Dinos.js
-
 import React, {Component} from 'react';
 import { Button, Image, ImageBackground,PanResponder, Animated, 
   StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 //import Dinos from './screens/Dinos'
 
 
-let dino= '../images/dino3.png'
-let cave = '../images/cave.jpg'
+let dino= './images/dino.jpg'
+let cave = './images/cave.jpg'
 
-export default class Dinos extends Component {
+export default class DinoApp extends Component {
     static navigationOptions ={
         title: "Level One"
     }
@@ -71,14 +69,32 @@ export default class Dinos extends Component {
         null, {dx: this.state.pan.x, dy: this.state.pan.y},
       ], {
         listener: (all ) => {
-            // console.log('i\m moving', all)
+            console.log('IM MOVING', this.state.pan.y._value)
+            if(this.state.pan.y._value>500){
+                alert('you made it home')
+                this.props.navigation.navigate('GameOne')
+            }
         }
     }),
   
       onPanResponderRelease: (e, all) => {
-
+        console.log('pos: ', all )
+        // if(this.state.pan.x._value>200&&this.state.pan.y._value>400){
+        //   alert("The dinosaur is home")
+        //   let dino = './images/dino2.png'
+        //   this.state.pan.setValue({x:0, y: 0})
+        //   this.setState({dinochanged: true})
+        // }
+        // //
+        //this.offset = { x: this.state.pan.x._value, y: this.state.pan.y._value}
+        //console.log('release', this.offset)
         //no need to set offset or values after release otherwise the image jumps back to its original position 
         this.state.pan.flattenOffset();
+
+        // this.state.pan.setOffset({x: this.state.pan.x._value, y: this.state.pan.y._value});
+        // this.state.pan.setValue({x: 0, y: 0});
+        // this.state.pan.flattenOffset();
+        
       }
     });
   }
@@ -98,8 +114,14 @@ export default class Dinos extends Component {
     
 
         <View style={styles.container}>
-          <ImageBackground source={require(cave)} style={styles.backgroundImage}>
+          <ImageBackground source={require('./images/mountain.jpg')} style={styles.backgroundImage}>
           
+        
+            {/*<Image style={styles.dinosaur} source={require('./images/dino.jpg')} onPress={this.onPress} />
+            
+      <Dinos />
+      
+      <Image style={styles.dinosaur} source={require(dino)} />*/}
 
             <Animated.View {...this._panResponder.panHandlers} 
               style={/*this.state.pan.getLayout()*/imageStyle}>
@@ -109,7 +131,8 @@ export default class Dinos extends Component {
             </Animated.View>
             <Text>Screen 1</Text>
             <Text style={styles.text}>Take the naughty dinosaur back home</Text>
-            <Image source={require('../images/nest.png')} style={styles.nest} />
+            <Button onPress={() => this.props.navigation.navigate('GameOne')} title="GameOne"/>
+            <Image source={require('./images/nest.png')} style={styles.nest} />
             </ImageBackground>
         </View>
         
@@ -151,43 +174,27 @@ const styles = StyleSheet.create({
       color: "red"
   }
 });
-/*import React, { Component } from 'react'
-import { ImageBackground, Image, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
+/*
+import React, { Component } from 'react';
+import { View } from 'react-native';
+//import { Provider } from 'react-redux';
+import { Router, Scene } from 'react-native-router-flux';
+import store from './store';
+import SignIn from './screens/SignIn';
+import SignUp from './screens/SignUp';
+import ChatRoom from './screens/ChatRoom';
+import styles from './ShatApp.styles';
 
-const mountain = '../images/cave.jpg'
-export default class Dinos extends Component {
-    constructor(props) {
-        super(props)
-        
-      }
-    onPress = () => {
-        alert('You touched the dinosaur')
-    }
-    
-    render() {
-        return (
-            <View>
-                {/*<TouchableHighlight onPress={this.onPress}>
-                <Image style={styles.dinosaur} source ={require('../images/dino.jpg')} />
-        </TouchableHighlight>}
-        <ImageBackground source={require(mountain)} style={styles.backgroundImage}>
-                <Text>This is another dinosaur</Text>
-        </ImageBackground>
-        </View>
-        )
-    }
-}
+export default class DinoApp extends Component {
+  render() {
+    return (
+        <Router>
+          <Scene key="root">
+            <Scene key="signIn" component={SignIn} title="Sign In" initial={true} />
+            <Scene key="signUp" component={SignUp} title="Sign Up" />
+          </Scene>
+        </Router>
 
-const styles = StyleSheet.create({
-
-    dinosaur: {
-      width: "60%",
-      height: "60%"
-    },
-    backgroundImage: {
-        flex: 1,
-        alignSelf: 'stretch',
-        width: "100%",
-        height: "100%",
-      },
-  });*/
+    );
+  }
+}*/
