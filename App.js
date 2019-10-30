@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import {
-  Platform,
   StyleSheet,
   Text,
   View
 } from 'react-native';
 import { createStackNavigator} from 'react-navigation';
+import HomeScreen from './HomeScreen'
 import DinoApp from './DinoApp';
 import Dinos from './screens/Dinos';
 
 const AppNavigator = createStackNavigator({
-  HomeScreen: { screen: DinoApp },
-  GameOne: { screen: Dinos },
-  
+  HomeScreen: { screen: HomeScreen },
+  LevelOne: { screen: DinoApp },
+  LevelTwo: {screen: Dinos}
 });
 
 export default class App extends Component {

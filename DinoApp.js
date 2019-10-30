@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import { Button, Image, ImageBackground,PanResponder, Animated, 
   StyleSheet, Text, TouchableHighlight, View } from 'react-native';
-//import Dinos from './screens/Dinos'
 
 
 let dino= './images/dino.jpg'
@@ -52,7 +51,7 @@ export default class DinoApp extends Component {
       onMoveShouldSetPanResponderCapture: () => true,
   
       onPanResponderGrant: (e, gestureState) => {
-          console.log('offset', this.offset)
+          console.log('e', e)
         this.state.pan.setOffset({x:this.state.pan.x._value, y: this.state.pan.y._value});
         this.state.pan.setValue({x: 0, y: 0});
       },
@@ -72,13 +71,13 @@ export default class DinoApp extends Component {
             console.log('IM MOVING', this.state.pan.y._value)
             if(this.state.pan.y._value>500){
                 alert('you made it home')
-                this.props.navigation.navigate('GameOne')
+                this.props.navigation.navigate('LevelTwo')
             }
         }
     }),
   
       onPanResponderRelease: (e, all) => {
-        console.log('pos: ', all )
+        console.log('pos: ', all, e )
         // if(this.state.pan.x._value>200&&this.state.pan.y._value>400){
         //   alert("The dinosaur is home")
         //   let dino = './images/dino2.png'
@@ -127,11 +126,11 @@ export default class DinoApp extends Component {
               style={/*this.state.pan.getLayout()*/imageStyle}>
 
             
-            <Image id="1" style={styles.dinosaur} source={require(dino)} />
+            <Image name="dino" key="2" style={styles.dinosaur} source={require(dino)} />
             </Animated.View>
             <Text>Screen 1</Text>
             <Text style={styles.text}>Take the naughty dinosaur back home</Text>
-            <Button onPress={() => this.props.navigation.navigate('GameOne')} title="GameOne"/>
+            <Button onPress={() => this.props.navigation.navigate('LevelTwo')} title="GameOne"/>
             <Image source={require('./images/nest.png')} style={styles.nest} />
             </ImageBackground>
         </View>
@@ -174,27 +173,3 @@ const styles = StyleSheet.create({
       color: "red"
   }
 });
-/*
-import React, { Component } from 'react';
-import { View } from 'react-native';
-//import { Provider } from 'react-redux';
-import { Router, Scene } from 'react-native-router-flux';
-import store from './store';
-import SignIn from './screens/SignIn';
-import SignUp from './screens/SignUp';
-import ChatRoom from './screens/ChatRoom';
-import styles from './ShatApp.styles';
-
-export default class DinoApp extends Component {
-  render() {
-    return (
-        <Router>
-          <Scene key="root">
-            <Scene key="signIn" component={SignIn} title="Sign In" initial={true} />
-            <Scene key="signUp" component={SignUp} title="Sign Up" />
-          </Scene>
-        </Router>
-
-    );
-  }
-}*/

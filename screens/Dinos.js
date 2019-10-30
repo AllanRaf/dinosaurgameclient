@@ -21,7 +21,7 @@ export default class Dinos extends Component {
     this.state = {
       pan: new Animated.ValueXY(),
       scale: new Animated.Value(1),
-      dinochanged: false
+      dinoDamage: false
     };
   }
   onPress=()=>{
@@ -72,6 +72,10 @@ export default class Dinos extends Component {
       ], {
         listener: (all ) => {
             // console.log('i\m moving', all)
+            if(this.state.pan.x._value>160&&this.state.pan.y._value>260){
+
+              this.setState({dinoDamage: true})
+            }
         }
     }),
   
@@ -108,7 +112,9 @@ export default class Dinos extends Component {
             <Image id="1" style={styles.dinosaur} source={require(dino)} />
             </Animated.View>
             <Text>Screen 1</Text>
+            {this.state.dinoDamage? <Text style={styles.text}>Dino got burnt!</Text>:<Text></Text>}
             <Text style={styles.text}>Take the naughty dinosaur back home</Text>
+            <Image source={require('../images/fire.gif')} style={styles.fire}/>
             <Image source={require('../images/nest.png')} style={styles.nest} />
             </ImageBackground>
         </View>
@@ -146,6 +152,13 @@ const styles = StyleSheet.create({
     position:"absolute",
     left: 200,
     top: 500,
+  },
+  fire:{
+    width: 100,
+    height: 100,
+    position: "absolute",
+    left: 100,
+    top: 300
   },
   text: {
       color: "red"
