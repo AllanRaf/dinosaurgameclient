@@ -3,12 +3,52 @@
 import React, {Component} from 'react';
 import { Button, Image, ImageBackground,PanResponder, Animated, 
   StyleSheet, Text, TouchableHighlight, View } from 'react-native';
-//import Dinos from './screens/Dinos'
+import Pachycephalosaurus from './images/Pcephalosaurus.png'
 let mountain = './images/mountain2.jpg'
+let dinosaur = './images/trex3.png'
+
+class ImageLoader extends Component {
+  state = {
+    opacity: new Animated.Value(0),
+  }
+
+  onLoad = () => {
+    Animated.timing(this.state.opacity, {
+      toValue: 1,
+      duration: 3000,
+      useNativeDriver: true,
+    }).start();
+  }
+
+  render() {
+    return (
+      <Animated.Image
+        onLoad={this.onLoad}
+        {...this.props}
+        style={[
+          {
+            opacity: this.state.opacity,
+            transform: [
+              {
+                scale: this.state.opacity.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [0.85, 1],
+                })
+              },
+            ],
+          },
+          this.props.style,
+        ]}
+      />
+    );
+  }
+}
 export default class HomeScreen extends Component {
     static navigationOptions ={
         title: "Home"
     }
+ 
+
     onPressGameOne = ()=>{
         this.props.navigation.navigate('LevelOne')
     }
@@ -21,11 +61,10 @@ export default class HomeScreen extends Component {
 
         <View style={styles.container}>
             <ImageBackground source={require(mountain)} style={styles.backgroundImage}>
-            <Button title="start" onPress={this.onPressGameOne}>Start</Button><Button title="purchase">Purchase</Button>
-              <Text style={styles.TEXT}>You are a Pachycephalosaurus who is responsible for a Dino Hotel
-                  Some of the guests have not returned within their curfew and it is your responsibility
-                  to usher them back to the hotel.  If you fail you will be fired from your job by the big boss
-              </Text>
+            <Button style={styles.butt} title="START THE HUNT" onPress={this.onPressGameOne}>Start</Button><Button title="IN APP PURCHASES">Purchase</Button>
+              <Text style={styles.text}>You are a tyrannosaurus rex on a hunt.  Lure all the tasty dinosaurs back to your lair
+              for breakfast, lunch and dinner.</Text>
+              <ImageLoader style = {styles.dinosaur} source = {require(dinosaur)} />
               </ImageBackground>
            
         </View>
@@ -48,9 +87,17 @@ const styles = StyleSheet.create({
       },
   intro: {
     flex: 1,
-    backgroundColor: '#fff',
+    //backgroundColor: '#fff',
+    fontSize: 10, 
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  dinosaur: {
+    alignItems: 'center',
+    width: 250,
+    height: 150,
+    top: 150,
+    left: 100
   },
   backgroundImage: {
     flex: 1,
@@ -60,6 +107,13 @@ const styles = StyleSheet.create({
   },
 
   text: {
-      color: "red"
+      color: "red",
+      fontWeight: "bold",
+      fontSize: 20,
+      margin: 40
+  },
+  butt:{
+    borderStyle: "solid",
+    borderBottomColor: "black"
   }
 });

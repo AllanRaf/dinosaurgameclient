@@ -6,7 +6,7 @@ import { Button, Image, ImageBackground,PanResponder, Animated,
 //import Dinos from './screens/Dinos'
 
 
-let dino= '../images/dino3.png'
+let dino= '../images/triceratops.png'
 let cave = '../images/cave.jpg'
 
 export default class Dinos extends Component {
@@ -25,55 +25,25 @@ export default class Dinos extends Component {
     };
   }
   onPress=()=>{
-    console.log("Dinosaur pressed")
     alert('you touched the dinosaur')
   }
 
   componentWillMount() {
-    console.log('component mounted')
-    // this._animatedValue = new Animated.ValueXY()
-    // this._value = {x: 0, y: 0}
-    
-    // this._animatedValue.addListener((value) => this._value = value);
-	// this._panResponder = PanResponder.create({
-    //   onMoveShouldSetResponderCapture: () => true, //Tell iOS that we are allowing the movement
-    //   onMoveShouldSetPanResponderCapture: () => true, // Same here, tell iOS that we allow dragging
-    //   onPanResponderGrant: (e, gestureState) => {
-    //     this._animatedValue.setOffset({x: this._value.x, y: this._value.y});
-	// 	this._animatedValue.setValue({x: 0, y: 0});
-    //   },
-    //   onPanResponderMove: Animated.event([
-    //     null, {dx: this._animatedValue.x, dy: this._animatedValue.y}
-    //   ]), // Creates a function to handle the movement and set offsets
-    //   onPanResponderRelease: () => {
-    //     this._animatedValue.flattenOffset(); // Flatten the offset so it resets the default positioning
-    //   }
-    // });
+
     this._panResponder = PanResponder.create({
       onMoveShouldSetResponderCapture: () => true,
       onMoveShouldSetPanResponderCapture: () => true,
   
       onPanResponderGrant: (e, gestureState) => {
-          console.log('offset', this.offset)
         this.state.pan.setOffset({x:this.state.pan.x._value, y: this.state.pan.y._value});
         this.state.pan.setValue({x: 0, y: 0});
       },
-  
-    //   onPanResponderMove: (e, gestureState)=> {
-
-    //    if(this.state.pan.y._value > 300){
-    //       //comments
-    //     }
-    //     Animated.event([
-    //     null, {dx: this.state.pan.x, dy: this.state.pan.y},
-    //   ])(e, gestureState)},
+ 
     onPanResponderMove: Animated.event([
         null, {dx: this.state.pan.x, dy: this.state.pan.y},
       ], {
         listener: (all ) => {
-            // console.log('i\m moving', all)
             if(this.state.pan.x._value>160&&this.state.pan.y._value>260){
-
               this.setState({dinoDamage: true})
             }
         }
@@ -104,18 +74,18 @@ export default class Dinos extends Component {
         <View style={styles.container}>
           <ImageBackground source={require(cave)} style={styles.backgroundImage}>
           
-
-            <Animated.View {...this._panResponder.panHandlers} 
-              style={/*this.state.pan.getLayout()*/imageStyle}>
-
-            
-            <Image id="1" style={styles.dinosaur} source={require(dino)} />
-            </Animated.View>
             <Text>Screen 1</Text>
             {this.state.dinoDamage? <Text style={styles.text}>Dino got burnt!</Text>:<Text></Text>}
-            <Text style={styles.text}>Take the naughty dinosaur back home</Text>
-            <Image source={require('../images/fire.gif')} style={styles.fire}/>
+            <Text style={styles.text}>Lure triceratops back to your lair for lunch</Text>
+            <Button onPress={() => this.props.navigation.navigate('LevelThree')} title="LevelThree"/>
+            <Animated.View {...this._panResponder.panHandlers} 
+              style={imageStyle}>
+            <Image style={styles.dinosaur} source={require(dino)} />
+            </Animated.View>
+            {<Image source={require('../images/fire2.png')} style={styles.fire}/>}
+            <Image source={require('../images/fire2.png')} style={styles.fire2}/>
             <Image source={require('../images/nest.png')} style={styles.nest} />
+
             </ImageBackground>
         </View>
         
@@ -137,28 +107,38 @@ const styles = StyleSheet.create({
   },
   dinosaur: {
     alignItems: 'center',
-    width: "20%",
-    height: "20%"
+    width: 200,
+    height: 150,
+    top: 10,
+    left: 10, 
+    zIndex: 25
   },
   backgroundImage: {
     flex: 1,
     alignSelf: 'stretch',
     width: "100%",
     height: "100%",
+    zIndex: 1
   },
   nest:{
-    width:"50%",
-    height:"50%",
+    width:250,
+    height:150,
     position:"absolute",
-    left: 200,
-    top: 500,
+    left: 120,
+    top: 580,
   },
   fire:{
     width: 100,
     height: 100,
     position: "absolute",
     left: 100,
-    top: 300
+    top: 300,
+    zIndex: 5
+  },
+  fire2:{
+    width: 100,
+    height: 100,
+    zIndex: 5
   },
   text: {
       color: "red"

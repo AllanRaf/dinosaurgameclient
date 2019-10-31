@@ -1,12 +1,18 @@
 import React, {Component} from 'react';
 import { Button, Image, ImageBackground,PanResponder, Animated, 
   StyleSheet, Text, TouchableHighlight, View } from 'react-native';
+import {connect} from 'react-redux'
 
 
-let dino= './images/dino.jpg'
+
+let dino= './images/brachiosaurus.png'
 let cave = './images/cave.jpg'
+const addScore = function(){
+  return {type: "INCREASE_SCORE",
+          payload: 1}
+}
 
-export default class DinoApp extends Component {
+export class DinoApp extends Component {
     static navigationOptions ={
         title: "Level One"
     }
@@ -68,16 +74,18 @@ export default class DinoApp extends Component {
         null, {dx: this.state.pan.x, dy: this.state.pan.y},
       ], {
         listener: (all ) => {
-            console.log('IM MOVING', this.state.pan.y._value)
             if(this.state.pan.y._value>500){
-                alert('you made it home')
+                alert('YUM YUM YUM, Time for lunch')
                 this.props.navigation.navigate('LevelTwo')
             }
         }
     }),
   
       onPanResponderRelease: (e, all) => {
-        console.log('pos: ', all, e )
+        
+        console.log('this.props.score', this.props.score, 'this.props.state', this.props.state)
+        this.props.dispatch({type:"INCREASE_SCORE", payload: 1})
+        console.log('this.props.score.state', this.props.score.state)
         // if(this.state.pan.x._value>200&&this.state.pan.y._value>400){
         //   alert("The dinosaur is home")
         //   let dino = './images/dino2.png'
@@ -107,31 +115,22 @@ export default class DinoApp extends Component {
         let [translateX, translateY] = [pan.x, pan.y];
         // Calculate the transform property and set it as a value for our style which we add below to the Animated.View component
         let imageStyle = {transform: [{translateX}, {translateY}]};
-        console.log('styles', typeof styles.nest.top)
 
       return (
     
 
         <View style={styles.container}>
-          <ImageBackground source={require('./images/mountain.jpg')} style={styles.backgroundImage}>
+          <ImageBackground source={require('./images/forest2.jpg')} style={styles.backgroundImage}>
+          <Button style={styles.butt} title="Return to the Home Page" onPress={() => this.props.navigation.navigate('HomeScreen')}>Home Page</Button>
           
-        
-            {/*<Image style={styles.dinosaur} source={require('./images/dino.jpg')} onPress={this.onPress} />
-            
-      <Dinos />
-      
-      <Image style={styles.dinosaur} source={require(dino)} />*/}
-
+          <Text style={styles.text}>Lure the brachiosaurus back to your lair for breakfast</Text>
             <Animated.View {...this._panResponder.panHandlers} 
-              style={/*this.state.pan.getLayout()*/imageStyle}>
+              style={imageStyle}>
 
-            
             <Image name="dino" key="2" style={styles.dinosaur} source={require(dino)} />
             </Animated.View>
-            <Text>Screen 1</Text>
-            <Text style={styles.text}>Take the naughty dinosaur back home</Text>
-            <Button onPress={() => this.props.navigation.navigate('LevelTwo')} title="GameOne"/>
-            <Image source={require('./images/nest.png')} style={styles.nest} />
+            
+            <Image source={require('./images/trex3.png')} style={styles.nest} />
             </ImageBackground>
         </View>
         
@@ -139,6 +138,15 @@ export default class DinoApp extends Component {
       );
     }
 }
+
+
+function mapStateToProps(state){
+  return{
+     score: state
+  }
+}
+
+export default connect(mapStateToProps)(DinoApp);
 
   
 
@@ -153,21 +161,21 @@ const styles = StyleSheet.create({
   },
   dinosaur: {
     alignItems: 'center',
-    width: "20%",
-    height: "20%"
+    width: 150,
+    height: 150
   },
   backgroundImage: {
     flex: 1,
     alignSelf: 'stretch',
-    width: "100%",
-    height: "100%",
+    width: 400,
+    height: 800,
   },
   nest:{
-    width:"50%",
-    height:"50%",
+    width:250,
+    height:150,
     position:"absolute",
-    left: 200,
-    top: 500,
+    left: 120,
+    top: 580,
   },
   text: {
       color: "red"
