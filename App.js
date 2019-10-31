@@ -11,12 +11,14 @@ import HomeScreen from './HomeScreen'
 import DinoApp from './DinoApp';
 import Dinos from './screens/Dinos';
 import LevelThree from './screens/LevelThree'
+import FullUp from './screens/FullUp'
 
 const AppNavigator = createStackNavigator({
   HomeScreen: { screen: HomeScreen },
   LevelOne: { screen: DinoApp },
   LevelTwo: {screen: Dinos},
-  LevelThree: {screen: LevelThree}
+  LevelThree: {screen: LevelThree},
+  FullUp: {screen: FullUp}
 });
 
 export default class App extends Component {

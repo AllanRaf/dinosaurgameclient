@@ -86,21 +86,10 @@ export class DinoApp extends Component {
         console.log('this.props.score', this.props.score, 'this.props.state', this.props.state)
         this.props.dispatch({type:"INCREASE_SCORE", payload: 1})
         console.log('this.props.score.state', this.props.score.state)
-        // if(this.state.pan.x._value>200&&this.state.pan.y._value>400){
-        //   alert("The dinosaur is home")
-        //   let dino = './images/dino2.png'
-        //   this.state.pan.setValue({x:0, y: 0})
-        //   this.setState({dinochanged: true})
-        // }
-        // //
-        //this.offset = { x: this.state.pan.x._value, y: this.state.pan.y._value}
-        //console.log('release', this.offset)
+     
         //no need to set offset or values after release otherwise the image jumps back to its original position 
         this.state.pan.flattenOffset();
 
-        // this.state.pan.setOffset({x: this.state.pan.x._value, y: this.state.pan.y._value});
-        // this.state.pan.setValue({x: 0, y: 0});
-        // this.state.pan.flattenOffset();
         
       }
     });
@@ -167,8 +156,8 @@ const styles = StyleSheet.create({
   backgroundImage: {
     flex: 1,
     alignSelf: 'stretch',
-    width: 400,
-    height: 800,
+    width: "100%",
+    height: "100%",
   },
   nest:{
     width:250,

@@ -3,7 +3,7 @@
 import React, {Component} from 'react';
 import { Button, Image, ImageBackground,PanResponder, Animated, 
   StyleSheet, Text, TouchableHighlight, View } from 'react-native';
-import Pachycephalosaurus from './images/Pcephalosaurus.png'
+
 let mountain = './images/mountain2.jpg'
 let dinosaur = './images/trex3.png'
 
