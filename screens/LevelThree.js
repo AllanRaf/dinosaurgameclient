@@ -44,8 +44,11 @@ export default class LevelThree extends Component {
         null, {dx: this.state.pan.x, dy: this.state.pan.y},
       ], {
         listener: (all ) => {
-            if(this.state.pan.x._value>160&&this.state.pan.y._value>260){
+          console.log('HELLO', this.state.pan.x._value, this.state.pan.y._value)
+            if(this.state.pan.x._value>120&&this.state.pan.y._value>500){
               this.setState({dinoDamage: true})
+              alert('You are now full up')
+              this.props.navigation.navigate('FullUp')
             }
         }
     }),
