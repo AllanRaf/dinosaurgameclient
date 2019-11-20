@@ -1,127 +1,145 @@
 //LevelThree.js
 
+import React, { Component } from "react";
+import {
+  Button,
+  Image,
+  ImageBackground,
+  PanResponder,
+  Animated,
+  StyleSheet,
+  Text,
+  View
+} from "react-native";
 
-import React, {Component} from 'react';
-import { Button, Image, ImageBackground,PanResponder, Animated, 
-  StyleSheet, Text, View } from 'react-native';
-
-let dino= '../images/plesiosaur.png'
-let cave = '../images/sea.jpg'
-let nest ='../images/trex3.png'
+let dino = "../images/plesiosaur.png";
+let cave = "../images/sea.jpg";
+let nest = "../images/trex3.png";
 
 export default class LevelThree extends Component {
-    static navigationOptions ={
-        title: "Level Three"
-    }
+  static navigationOptions = {
+    title: "Level Three"
+  };
 
-    offset = {x: 0, y: 0}
+  offset = { x: 0, y: 0 };
   constructor(props) {
     super(props);
-  
+
     this.state = {
       pan: new Animated.ValueXY(),
       scale: new Animated.Value(1),
       dinoDamage: false
     };
   }
-  onPress=()=>{
-    alert('you touched the dinosaur')
-  }
+  onPress = () => {
+    alert("you touched the dinosaur");
+  };
 
   componentWillMount() {
-
     this._panResponder = PanResponder.create({
       onMoveShouldSetResponderCapture: () => true,
       onMoveShouldSetPanResponderCapture: () => true,
-  
-      onPanResponderGrant: (e, gestureState) => {
-          console.log('offset', this.offset)
-        this.state.pan.setOffset({x:this.state.pan.x._value, y: this.state.pan.y._value});
-        this.state.pan.setValue({x: 0, y: 0});
-      },
-  
-    onPanResponderMove: Animated.event([
-        null, {dx: this.state.pan.x, dy: this.state.pan.y},
-      ], {
-        listener: (all ) => {
-          console.log('HELLO', this.state.pan.x._value, this.state.pan.y._value)
-            if(this.state.pan.x._value>120&&this.state.pan.y._value>500){
-              this.setState({dinoDamage: true})
-              alert('You are now full up')
-              this.props.navigation.navigate('FullUp')
-            }
-        }
-    }),
-  
-      onPanResponderRelease: (e, all) => {
 
-        //no need to set offset or values after release otherwise the image jumps back to its original position 
+      onPanResponderGrant: (e, gestureState) => {
+        console.log("offset", this.offset);
+        this.state.pan.setOffset({
+          x: this.state.pan.x._value,
+          y: this.state.pan.y._value
+        });
+        this.state.pan.setValue({ x: 0, y: 0 });
+      },
+
+      onPanResponderMove: Animated.event(
+        [null, { dx: this.state.pan.x, dy: this.state.pan.y }],
+        {
+          listener: all => {
+            console.log(
+              "HELLO",
+              this.state.pan.x._value,
+              this.state.pan.y._value
+            );
+            if (
+              this.state.pan.x._value > 120 &&
+              this.state.pan.y._value > 500
+            ) {
+              this.setState({ dinoDamage: true });
+              alert("You are now full up");
+              this.props.navigation.navigate("FullUp");
+            }
+          }
+        }
+      ),
+
+      onPanResponderRelease: (e, all) => {
+        //no need to set offset or values after release otherwise the image jumps back to its original position
         this.state.pan.flattenOffset();
       }
     });
   }
 
-      render(){
-        // Destructure the value of pan from the state
-        let { pan } = this.state;
-        // const pan = this._animatedValue
-        // Calculate the x and y transform from the pan value
-        let [translateX, translateY] = [pan.x, pan.y];
-        // Calculate the transform property and set it as a value for our style which we add below to the Animated.View component
-        let imageStyle = {transform: [{translateX}, {translateY}]};
+  render() {
+    // Destructure the value of pan from the state
+    let { pan } = this.state;
+    // const pan = this._animatedValue
+    // Calculate the x and y transform from the pan value
+    let [translateX, translateY] = [pan.x, pan.y];
+    // Calculate the transform property and set it as a value for our style which we add below to the Animated.View component
+    let imageStyle = { transform: [{ translateX }, { translateY }] };
 
-      return (
-        <View style={styles.container}>
-          <ImageBackground source={require(cave)} style={styles.backgroundImage}>
-          <Button style={styles.butt} title="Return to the Home Page" onPress={() => this.props.navigation.navigate('HomeScreen')}>Home Page</Button>
-          <Text style={styles.text}>Lure the plesiosaur back to your lair for dinner</Text>
+    return (
+      <View style={styles.container}>
+        <ImageBackground source={require(cave)} style={styles.backgroundImage}>
+          <Button
+            style={styles.butt}
+            title="Return to the Home Page"
+            onPress={() => this.props.navigation.navigate("HomeScreen")}
+          >
+            Home Page
+          </Button>
+          <Text style={styles.text}>
+            Lure the plesiosaur back to your lair for dinner
+          </Text>
 
-            <Animated.View {...this._panResponder.panHandlers} 
-              style={/*this.state.pan.getLayout()*/imageStyle}>
-
-            
+          <Animated.View
+            {...this._panResponder.panHandlers}
+            style={/*this.state.pan.getLayout()*/ imageStyle}
+          >
             <Image id="1" style={styles.dinosaur} source={require(dino)} />
-            </Animated.View>
-            <Image source={require('../images/spike.jpg')} style={styles.fire}/>
-            <Image source={require(nest)} style={styles.nest} />
-            </ImageBackground>
-        </View>
-        
-    
-      );
-    }
+          </Animated.View>
+          <Image source={require("../images/spike.jpg")} style={styles.fire} />
+          <Image source={require(nest)} style={styles.nest} />
+        </ImageBackground>
+      </View>
+    );
+  }
 }
-
-  
-
-
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center"
   },
   dinosaur: {
-    alignItems: 'center',
+    alignItems: "center",
     width: "20%",
     height: "20%"
   },
   backgroundImage: {
     flex: 1,
-    alignSelf: 'stretch',
+    alignSelf: "stretch",
     width: "100%",
-    height: "100%",
+    height: "100%"
   },
-  nest:{
-    width:250,
-    height:150,
-    position:"absolute",
+  nest: {
+    width: 250,
+    height: 150,
+    position: "absolute",
     left: 120,
-    top: 580,
+    top: 580
   },
-  fire:{
+  fire: {
     width: 100,
     height: 100,
     position: "absolute",
@@ -129,7 +147,7 @@ const styles = StyleSheet.create({
     top: 300
   },
   text: {
-      color: "red"
+    color: "red"
   }
 });
 

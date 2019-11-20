@@ -167,6 +167,7 @@ const styles = StyleSheet.create({
     top: 580,
   },
   text: {
-      color: "red"
+      color: "red",
+
   }
 });
